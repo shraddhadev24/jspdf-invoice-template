@@ -141,6 +141,25 @@ function jsPDFInvoiceTemplate(props) {
           fontSize: props.invoice?.row2?.style?.fontSize || 12,
         },
       },
+      total: {
+        col1: props.invoice?.total?.col1 || "",
+        col2: props.invoice?.total?.col2 || "",
+        col3: props.invoice?.total?.col3 || "",
+        style: {
+          fontSize: props.invoice?.row2?.style?.fontSize || 12,
+        },
+      },
+      amountDue: {
+        col1: props.invoice?.amountDue?.col1 || "",
+        col2: props.invoice?.amountDue?.col2 || "",
+        col3: props.invoice?.amountDue?.col3 || "",
+        style: {
+          fontSize: props.invoice?.row2?.style?.fontSize || 12,
+        },
+      },
+      creditNote: props.invoice?.creditNote || "",
+
+
     },
     footer: {
       text: props.footer?.text || "",
@@ -449,10 +468,47 @@ function jsPDFInvoiceTemplate(props) {
   }
   //end row2
 
+  // Main total
+  if (
+    param.invoice.total &&
+    (param.invoice.total.col1 ||
+      param.invoice.total.col2 ||
+      param.invoice.total.col3)
+  ) {
+    currentHeight += pdfConfig.lineHeight;
+    doc.setFontSize(param.invoice.total.style.fontSize);
+
+    doc.text(docWidth / 1.5, currentHeight, param.invoice.total.col1, "right");
+    doc.text(docWidth - 25, currentHeight, param.invoice.total.col2, "right");
+    doc.text(docWidth - 10, currentHeight, param.invoice.total.col3, "right");
+  }
+
+  // Amount Due
+  if (
+    param.invoice.amountDue &&
+    (param.invoice.amountDue.col1 ||
+      param.invoice.amountDue.col2 ||
+      param.invoice.amountDue.col3)
+  ) {
+    currentHeight += pdfConfig.lineHeight;
+    doc.setFontSize(param.invoice.amountDue.style.fontSize);
+    doc.text(docWidth / 1.5, currentHeight, param.invoice.creditNote, "right");
+   
+    doc.line(docWidth / 1,5, currentHeight, docWidth - 10, currentHeight);
+    currentHeight += pdfConfig.lineHeight;
+   
+    doc.text(docWidth / 1.5, currentHeight, param.invoice.amountDue.col1, "right");
+    doc.text(docWidth - 25, currentHeight, param.invoice.amountDue.col2, "right");
+    doc.text(docWidth - 10, currentHeight, param.invoice.amountDue.col3, "right");
+  }
+
+
+
   if (param.orientationLandscape && currentHeight + invDescSize > 173) {
     doc.addPage();
     currentHeight = 10;
   }
+
 
   if (!param.orientationLandscape && currentHeight + invDescSize > 270) {
     doc.addPage();
