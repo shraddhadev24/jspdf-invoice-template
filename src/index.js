@@ -154,7 +154,7 @@ function jsPDFInvoiceTemplate(props) {
         col2: props.invoice?.amountDue?.col2 || "",
         col3: props.invoice?.amountDue?.col3 || "",
         style: {
-          fontSize: props.invoice?.row2?.style?.fontSize || 12,
+          fontSize: props.invoice?.amountDue?.style?.fontSize || 12,
         },
       },
       creditNote: props.invoice?.creditNote || "",
